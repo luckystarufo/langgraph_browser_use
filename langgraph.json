@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "browser_agent": "langgraph_browser_agent.graph:create_standalone_graph"
+  },
+  "env": ".env"
+}

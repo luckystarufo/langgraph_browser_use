@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "langgraph-browser-agent"
+version = "0.1.0"
+description = "LangGraph implementation for a browser-use Agent, modularized."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Your Name" }]
+dependencies = [
+  "langgraph>=0.2.0",
+  # browser-use is frequently installed from Git; keep optional here and document in README
+]
+
+[project.optional-dependencies]
+browser = [
+  "browser-use @ git+https://github.com/browser-use/browser-use.git",
+]
+studio = [
+  "langgraph-cli[inmem]",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["langgraph_browser_agent*"]
+
+
