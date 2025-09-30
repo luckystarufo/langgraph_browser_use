@@ -46,17 +46,17 @@ class TestLangGraphBrowserAgent:
         mock_original_agent._message_manager = Mock()
         mock_original_agent.settings = Mock()
         mock_original_agent.logger = Mock()
-        mock_original_agent.include_recent_events = True
-        mock_original_agent.sensitive_data = "test data"
-        mock_original_agent.available_file_paths = ["path1", "path2"]
         
         # Create LangGraph agent
         agent = LangGraphBrowserAgent(mock_original_agent)
         
-        # Verify optional attributes are copied
-        assert agent.include_recent_events is True
-        assert agent.sensitive_data == "test data"
-        assert agent.available_file_paths == ["path1", "path2"]
+        # Verify core attributes are copied
+        assert agent.original_agent == mock_original_agent
+        assert agent.browser_session == mock_original_agent.browser_session
+        assert agent.tools == mock_original_agent.tools
+        assert agent.llm == mock_original_agent.llm
+        assert agent.settings == mock_original_agent.settings
+        assert agent.logger == mock_original_agent.logger
     
     def test_init_without_optional_attributes(self):
         """Test initialization without optional attributes."""
@@ -69,18 +69,24 @@ class TestLangGraphBrowserAgent:
         mock_original_agent.settings = Mock()
         mock_original_agent.logger = Mock()
         
-        # Remove optional attributes to test getattr behavior
-        del mock_original_agent.include_recent_events
-        del mock_original_agent.sensitive_data
-        del mock_original_agent.available_file_paths
-        
         # Create LangGraph agent
         agent = LangGraphBrowserAgent(mock_original_agent)
         
-        # Verify optional attributes have default values
-        assert agent.include_recent_events is False
-        assert agent.sensitive_data is None
-        assert agent.available_file_paths is None
+        # Verify core attributes are copied
+        assert agent.original_agent == mock_original_agent
+        assert agent.browser_session == mock_original_agent.browser_session
+        assert agent.tools == mock_original_agent.tools
+        assert agent.llm == mock_original_agent.llm
+        assert agent.settings == mock_original_agent.settings
+        assert agent.logger == mock_original_agent.logger
+        
+        # Verify LangGraph workflow state attributes are initialized
+        assert agent.current_step == 0
+        assert agent.max_steps == 0
+        assert agent.step_info is None
+        assert agent.last_error is None
+        assert agent.ended_due_to_break is False
+        assert agent.step_timed_out is False
 
 
 class TestLangGraphBrowserAgentRun:

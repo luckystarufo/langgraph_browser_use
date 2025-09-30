@@ -1,6 +1,20 @@
 # LangGraph Browser Agent
 
-This package reorganizes the [Browser Use agent](https://github.com/browser-use/browser-use/tree/main) into a graph.
+This package reorganizes the [Browser Use agent](https://github.com/browser-use/browser-use/tree/main) into a modular LangGraph-based implementation, providing better structure, testability, and visualization capabilities.
+
+![LangGraph Browser Agent Workflow](static/agent_graph.png)
+
+### Demo
+
+Watch the LangGraph Browser Agent in action:
+
+<div align="center">
+
+[![LangGraph Browser Agent Demo](https://img.youtube.com/vi/Wj-o6OSjWpY/0.jpg)](https://www.youtube.com/watch?v=Wj-o6OSjWpY)
+
+*Click the image above to watch the demo video on YouTube*
+
+</div>
 
 ### Install
 
@@ -49,10 +63,19 @@ agent = Agent(
 langgraph_agent = LangGraphBrowserAgent(agent)
 
 # Run the workflow
-history = await langgraph_agent.run(max_steps=100)
+history = await langgraph_agent.run(max_steps=100, step_timeout=30)
 ```
 
 We recommend checking the examples first to understand how to construct the `original_agent`.
+
+### Key Features
+
+- **Modular Architecture**: Clean separation of concerns with dedicated modules for state, nodes, routes, and graph construction
+- **Comprehensive Testing**: Full test suite with 36 tests covering all components
+- **LangGraph Studio Integration**: Visualize and debug workflows in LangGraph Studio
+- **State Management**: Minimal, efficient state schema optimized for LangGraph workflows
+- **Error Handling**: Robust error handling and timeout management
+- **Browser Automation**: Full integration with browser-use for real web automation tasks
 
 ### LangGraph Studio Visualization
 
@@ -75,6 +98,8 @@ The graph visualization shows:
 - **State transitions**: How the BrowserAgentState changes
 - **Routing logic**: Conditional edges and decision paths
 - **Error handling**: Timeout and error recovery flows
+
+**Note**: The Studio visualization uses a mock version of the graph for demonstration purposes. It simulates the workflow without actual browser automation or LLM calls, allowing you to explore the graph structure and flow logic safely.
 
 ### Development
 
@@ -102,14 +127,14 @@ pytest tests/ -v
 
 The test suite includes:
 - **Import tests**: Verify package can be imported correctly
-- **State management tests**: Test BrowserAgentState and synchronization
+- **State management tests**: Test BrowserAgentState schema and optional fields
 - **Routing tests**: Test all routing logic for workflow decisions
 - **Node tests**: Test individual LangGraph node implementations
-- **Graph tests**: Test graph creation and structure
+- **Graph tests**: Test graph creation and structure (including standalone graph for Studio)
 - **Integration tests**: Test end-to-end workflows
 - **Agent tests**: Test LangGraphBrowserAgent initialization and core functionality
 
-**Test Coverage**: 35/35 tests passing (100% pass rate)
+**Test Coverage**: 36/36 tests passing (100% pass rate)
 - Core functionality: ✅ All passing
 - Package structure: ✅ All verified
 - Workflow components: ✅ All tested

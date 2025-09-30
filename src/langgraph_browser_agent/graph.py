@@ -215,14 +215,71 @@ def create_standalone_graph():
     Create a standalone graph for LangGraph Studio visualization.
     This creates a mock agent instance for visualization purposes.
     """
-    from unittest.mock import Mock
+    from unittest.mock import Mock, AsyncMock
     
-    # Create a mock agent instance for visualization
+    # Create a comprehensive mock agent instance for visualization
     mock_agent = Mock()
+    
+    # Mock agent attributes
+    mock_agent.current_step = 0
+    mock_agent.max_steps = 10
+    mock_agent.step_info = None
+    mock_agent.last_error = None
+    mock_agent.ended_due_to_break = False
+    mock_agent.step_timed_out = False
+    mock_agent.signal_handler = Mock()
+    mock_agent.signal_handler.reset = Mock()
+    
+    # Mock original agent
     mock_agent.original_agent = Mock()
+    
+    # Mock original agent settings
     mock_agent.original_agent.settings = Mock()
     mock_agent.original_agent.settings.max_failures = 3
     mock_agent.original_agent.settings.final_response_after_failure = False
+    mock_agent.original_agent.settings.step_timeout = 30
+    
+    # Mock original agent state
+    mock_agent.original_agent.state = Mock()
+    mock_agent.original_agent.state.paused = False
+    mock_agent.original_agent.state.stopped = False
+    mock_agent.original_agent.state.consecutive_failures = 0
+    mock_agent.original_agent.state.last_result = []
+    
+    # Mock original agent history
+    mock_agent.original_agent.history = Mock()
+    # Make history.is_done() return True after a few steps to simulate completion
+    call_count = 0
+    def mock_is_done():
+        nonlocal call_count
+        call_count += 1
+        return call_count >= 3  # Complete after 3 calls
+    mock_agent.original_agent.history.is_done = Mock(side_effect=mock_is_done)
+    
+    # Mock original agent logger
+    mock_agent.original_agent.logger = Mock()
+    mock_agent.original_agent.logger.debug = Mock()
+    mock_agent.original_agent.logger.error = Mock()
+    mock_agent.original_agent.logger.info = Mock()
+    
+    # Mock original agent methods
+    mock_agent.original_agent.step_start_time = 0
+    mock_agent.original_agent._prepare_context = AsyncMock(return_value=Mock())
+    mock_agent.original_agent._get_next_action = AsyncMock()
+    mock_agent.original_agent._execute_actions = AsyncMock()
+    mock_agent.original_agent._post_process = AsyncMock()
+    mock_agent.original_agent._finalize = AsyncMock()
+    mock_agent.original_agent._handle_step_error = AsyncMock()
+    mock_agent.original_agent.log_completion = AsyncMock()
+    mock_agent.original_agent.register_done_callback = None
+    
+    # Mock callback functions (these can be None or AsyncMock)
+    mock_agent.on_step_start = None
+    mock_agent.on_step_end = None
+    
+    # Mock external pause event
+    mock_agent.original_agent._external_pause_event = Mock()
+    mock_agent.original_agent._external_pause_event.wait = AsyncMock()
     
     return create_browser_agent_graph(mock_agent)
 

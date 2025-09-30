@@ -7,7 +7,7 @@ async def test_complete_workflow():
     
     # Create a simple agent with browser session
     agent = Agent(
-        task='Find the price of high end CPUs for mining purposes, you may go to amazon.com for it', 
+        task="Go to amazon.com to check the price of high end CPUs for mining purposes",
         llm=ChatOpenAI(model='gpt-4o')
     )
     
