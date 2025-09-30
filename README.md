@@ -10,9 +10,7 @@ Watch the LangGraph Browser Agent in action:
 
 <div align="center">
 
-[![LangGraph Browser Agent Demo](https://img.youtube.com/vi/Wj-o6OSjWpY/0.jpg)](https://www.youtube.com/watch?v=Wj-o6OSjWpY)
-
-*Click the image above to watch the demo video on YouTube*
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Wj-o6OSjWpY" title="LangGraph Browser Agent Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 </div>
 
